@@ -9,7 +9,6 @@ resource "aws_codebuild_project" "terra" {
   artifacts {
     type = "CODEPIPELINE"
   }
-}
 #   cache {
 #     type     = "S3"
 #     location = aws_s3_bucket.example.bucket
@@ -25,14 +24,16 @@ resource "aws_codebuild_project" "terra" {
       credential = var.dockerhub_credentials
       credential_provider = "SECRETS_MANAGER"
     }
+  }
+  
   source {
     type            = "CODEPIPELINE"  #"GITHUB"
     # location        = "https://github.com/mitchellh/packer.git"
     # git_clone_depth = 1
     buildspec = file("buildspec/plan_buildspec.yaml")
   }
+}
 
-  }
 
     # environment_variable {
     #   name  = "SOME_KEY1"

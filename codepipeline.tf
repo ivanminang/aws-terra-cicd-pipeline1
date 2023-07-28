@@ -1,15 +1,15 @@
 resource "aws_codepipeline" "codepipeline" {
-  name     = "tf-test-pipeline"
+  name     = "terra-test-pipeline"
   role_arn = aws_iam_role.codepipeline_role.arn
 
   artifact_store {
-    location = aws_s3_bucket.codepipeline_bucket.bucket
+    location = aws_s3_bucket.codepipeline_artifacts_bucket1.bucket
     type     = "S3"
 
-    encryption_key {
-      id   = data.aws_kms_alias.s3kmskey.arn
-      type = "KMS"
-    }
+    # encryption_key {
+    #   id   = data.aws_kms_alias.s3kmskey.arn
+    #   type = "KMS"
+    # }
   }
 
   stage {
@@ -24,8 +24,8 @@ resource "aws_codepipeline" "codepipeline" {
       output_artifacts = ["source_output"]
 
       configuration = {
-        ConnectionArn    = aws_codestarconnections_connection.example.arn
-        FullRepositoryId = "my-organization/example"
+        ConnectionArn    = "var.codestar_connector_credentials"
+        FullRepositoryId = "aws-terra-cicd-pipeline1"
         BranchName       = "main"
       }
     }
@@ -44,7 +44,7 @@ resource "aws_codepipeline" "codepipeline" {
       version          = "1"
 
       configuration = {
-        ProjectName = "test"
+        ProjectName = "terra_project"
       }
     }
   }
@@ -64,7 +64,7 @@ resource "aws_codepipeline" "codepipeline" {
         ActionMode     = "REPLACE_ON_FAILURE"
         Capabilities   = "CAPABILITY_AUTO_EXPAND,CAPABILITY_IAM"
         OutputFileName = "CreateStackOutput.json"
-        StackName      = "MyStack"
+        StackName      = "terraStack"
         TemplatePath   = "build_output::sam-templated.yaml"
       }
     }
