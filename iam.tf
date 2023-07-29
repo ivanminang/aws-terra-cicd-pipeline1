@@ -158,6 +158,12 @@ data "aws_iam_policy_document" "codebuild" {
 #       values   = ["codebuild.amazonaws.com"]
 #     }
 #   }
+  statement {
+    effect    = "Allow"
+    actions   = ["secretsmanager:GetSecretValue"]
+    resources = [var.dockerhub_credentials]
+    # resources = [aws_codestarconnections_connection.example.arn]
+  }
 
   statement {
     effect  = "Allow"
@@ -166,6 +172,11 @@ data "aws_iam_policy_document" "codebuild" {
       aws_s3_bucket.codepipeline_artifacts_bucket1.arn,   # this is the bucket where codepipeline will store the artifacts
       "${aws_s3_bucket.codepipeline_artifacts_bucket1.arn}/*",
     ]
+  }
+  statement {
+    effect  = "Allow"
+    actions = ["s3:*"]
+    resources = ["arn:aws:s3:::aws-terra-cicd-pipeline1/dev/terraform.tfstate"]
   }
 }
 

@@ -25,8 +25,8 @@ resource "aws_codepipeline" "codepipeline" {
 
       configuration = {
         ConnectionArn    = var.codestar_connector_credentials
-        FullRepositoryId = "aws-terra-cicd-pipeline1"
-        BranchName       = "master"
+        FullRepositoryId = "ivanminang/aws-terra-cicd-pipeline1"
+        BranchName       = "main"
       }
     }
   }
