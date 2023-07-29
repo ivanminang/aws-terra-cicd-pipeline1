@@ -1,5 +1,8 @@
 version: 0.2  # version
 phases:
+  # install:
+  #   runtime-versions:
+  #     terraform: v1.4.5 # it will install terraform v1.4.5 on the web server
   pre_build:
     commands:
       - echo WE ARE ENTERING THE PREBUILD PHASE...
@@ -8,11 +11,11 @@ phases:
       
   build:
     commands:
-      - terraform plan
-      - terraform apply -auto-approve
+      - terraform plan -var-file="cicdpipeline.tfvars"
+      - terraform apply -auto-approve -var-file="cicdpipeline.tfvars"
   post_build:
     commands:
       - echo Build completed on `date`
-# artifacts:
-#   files:
-#     - '**/*' # zip back everything up
+artifacts:
+  files:
+    - '**/*' # zip back everything up

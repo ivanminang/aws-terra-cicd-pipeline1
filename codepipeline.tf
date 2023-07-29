@@ -24,8 +24,8 @@ resource "aws_codepipeline" "codepipeline" {
       output_artifacts = ["source_output"]
 
       configuration = {
-        ConnectionArn    = "var.codestar_connector_credentials"
-        FullRepositoryId = "aws-terra-cicd-pipeline1"
+        ConnectionArn    = var.codestar_connector_credentials
+        FullRepositoryId = "ivanminang/aws-terra-cicd-pipeline1"
         BranchName       = "main"
       }
     }
@@ -44,7 +44,7 @@ resource "aws_codepipeline" "codepipeline" {
       version          = "1"
 
       configuration = {
-        ProjectName = "terra_project"
+        ProjectName = aws_codebuild_project.terra.name
       }
     }
   }
@@ -59,6 +59,7 @@ resource "aws_codepipeline" "codepipeline" {
       provider        = "CloudFormation"
       input_artifacts = ["build_output"]
       version         = "1"
+    #   region          = "us-east-1"
 
       configuration = {
         ActionMode     = "REPLACE_ON_FAILURE"

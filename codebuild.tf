@@ -14,25 +14,29 @@ resource "aws_codebuild_project" "terra" {
 #     location = aws_s3_bucket.example.bucket
 #   }
 
+
   environment {
     compute_type                = "BUILD_GENERAL1_SMALL"
-    image                       = "hashicorp/terraform:0.14.13" # (Docker image from my Docker Hub) # "aws/codebuild/amazonlinux2-x86_64-standard:4.0" (this is Docker Image provided by codebuild)
+    # image                       = "aws/codebuild/amazonlinux2-x86_64-standard:4.0"
+    image                       = "hashicorp/terraform:1.4.5" # (Docker image from my Docker Hub) # "aws/codebuild/amazonlinux2-x86_64-standard:4.0" (this is Docker Image provided by codebuild)
     type                        = "LINUX_CONTAINER"
-    image_pull_credentials_type = "SERVICE_ROLE" #(service role is when you use private registery image) #"CODEBUILD"
-    # (codebuild is when you use am aws Codebuild curated image)
+    # image_pull_credentials_type = "CODEBUILD" (codebuild is when you use am aws Codebuild curated image)
+    image_pull_credentials_type = "SERVICE_ROLE" #(service role is when you use private registery image) 
     registry_credential {
       credential = var.dockerhub_credentials
       credential_provider = "SECRETS_MANAGER"
     }
   }
-  
+
   source {
     type            = "CODEPIPELINE"  #"GITHUB"
-    # location        = "https://github.com/mitchellh/packer.git"
+    # location        = "https://github.com/mitchellh/packer.git"  (This is the location of our application code)
     # git_clone_depth = 1
     buildspec = file("buildspec/plan_buildspec.yaml")
   }
+#   source_version = "main" # (this is the branch of our application code)
 }
+
 
 
     # environment_variable {
