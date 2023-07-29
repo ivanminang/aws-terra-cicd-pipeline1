@@ -137,27 +137,26 @@ data "aws_iam_policy_document" "codebuild" {
     resources = ["*"]
   }
 
-#   statement {
-#     effect    = "Allow"
-#     actions   = ["ec2:CreateNetworkInterfacePermission"]
-#     resources = ["arn:aws:ec2:us-east-1:123456789012:network-interface/*"]
+  statement {
+    effect    = "Allow"
+    actions   = ["ec2:CreateNetworkInterfacePermission"]
+    resources = ["arn:aws:ec2:us-east-1:123456789012:network-interface/*"]
 
-#     condition {
-#       test     = "StringEquals"
-#       variable = "ec2:Subnet"
+    # condition {
+    #   test     = "StringEquals"
+    #   variable = "ec2:Subnet"
 
-#       values = [
-#         aws_subnet.example1.arn,
-#         aws_subnet.example2.arn,
-#       ]
-#     }
+    #   values = [
+    #     aws_subnet.WebPublicSubnet.arn,
+    #   ]
+    # }
 
-#     condition {
-#       test     = "StringEquals"
-#       variable = "ec2:AuthorizedService"
-#       values   = ["codebuild.amazonaws.com"]
-#     }
-#   }
+    # condition {
+    #   test     = "StringEquals"
+    #   variable = "ec2:AuthorizedService"
+    #   values   = ["codebuild.amazonaws.com"]
+    # }
+  }
   statement {
     effect    = "Allow"
     actions   = ["secretsmanager:GetSecretValue"]

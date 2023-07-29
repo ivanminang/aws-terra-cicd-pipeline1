@@ -11,8 +11,10 @@ phases:
       
   build:
     commands:
-      - terraform plan -var-file="cicdpipeline.tfvars"
-      - terraform apply -auto-approve -var-file="cicdpipeline.tfvars"
+      # - terraform plan -var-file="cicdpipeline.tfvars"
+      - terraform plan
+      # - terraform apply -auto-approve -var-file="cicdpipeline.tfvars"
+      - terraform apply -auto-approve
   post_build:
     commands:
       - echo Build completed on `date`

@@ -7,7 +7,7 @@ resource "aws_codebuild_project" "terra" {
   service_role  = aws_iam_role.codebuild_role.arn
 
   artifacts {
-    type = "CODEPIPELINE"
+    type =   "NO_ARTIFACTS"    #"CODEPIPELINE"
   }
 #   cache {
 #     type     = "S3"
@@ -29,12 +29,12 @@ resource "aws_codebuild_project" "terra" {
   }
 
   source {
-    type            = "CODEPIPELINE"  #"GITHUB"
-    # location        = "https://github.com/mitchellh/packer.git"  (This is the location of our application code)
+    type            = "GITHUB"  #"CODEPIPELINE"
+    location        = "https://github.com/ivanminang/terra_codepipeline_proj15.git"  #(This is the location of our application code)
     # git_clone_depth = 1
     buildspec = file("buildspec/plan_buildspec.yaml")
   }
-#   source_version = "main" # (this is the branch of our application code)
+  source_version = "main" # (this is the branch of our application code)
 }
 
 
