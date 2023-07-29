@@ -25,14 +25,16 @@ resource "aws_codebuild_project" "terra" {
       credential_provider = "SECRETS_MANAGER"
     }
   }
-  
+
   source {
     type            = "CODEPIPELINE"  #"GITHUB"
-    # location        = "https://github.com/mitchellh/packer.git"
+    # location        = "https://github.com/mitchellh/packer.git"  (This is the location of our application code)
     # git_clone_depth = 1
     buildspec = file("buildspec/plan_buildspec.yaml")
   }
+#   source_version = "main" # (this is the branch of our application code)
 }
+
 
 
     # environment_variable {
