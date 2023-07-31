@@ -1,4 +1,8 @@
 version: 0.2  # version
+# env:
+#   secrets-manager:
+#     access_key: "admin_camer_user:access key"
+#     secret_key: "admin_camer_user:secret access key"
 phases:
   # install:
   #   runtime-versions:
@@ -12,12 +16,14 @@ phases:
   build:
     commands:
       # - terraform plan -var-file="cicdpipeline.tfvars"
-      - terraform plan
+      # - terraform plan
       # - terraform apply -auto-approve -var-file="cicdpipeline.tfvars"
       - terraform apply -auto-approve
+      # - terraform destroy -auto-approve
   post_build:
     commands:
       - echo Build completed on `date`
 artifacts:
   files:
+    # - "https://github.com/ivanminang/terra_codepipeline_proj15.git/applicationcode.tf"
     - '**/*' # zip back everything up
